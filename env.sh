@@ -27,11 +27,14 @@ envf envp <<-'EOT'
 	envp_ "$@"
 	PS1=". ${ENV}\n${PS1}"
 	while [ $# -gt 0 ]; do
-		if [ -d "${1}" ]; then
-			PS1=". ${1%"/"}/${ENVN#"/"}\n${PS1}"
-		else
-			PS1=". ${1}\n${PS1}"
-		fi
+		PS1=". $(
+			if [ -d "${1}" ]; then
+				envd "${1}"
+				realpath "${ENVN}"
+			else
+				realpath "${1}"
+			fi
+		)\n${PS1}"
 		shift
 	done
 	PS1="\n${PS1}"
