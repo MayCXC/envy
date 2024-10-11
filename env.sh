@@ -30,9 +30,9 @@ envf envp <<-'EOT'
 		PS1=". $(
 			if [ -d "${1}" ]; then
 				envd "${1}"
-				realpath "${ENVN}"
+				realpath -- "${ENVN}"
 			else
-				realpath "${1}"
+				realpath -- "${1}"
 			fi
 		)\n${PS1}"
 		shift
